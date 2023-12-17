@@ -24,4 +24,6 @@
 ## Authorization examples
 
 ### MacOS
+<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/osascript_preview.png" width="256" height="277">
+
 ![OSASCRIPT_PREVIEW](./images/osascript_preview.png)
