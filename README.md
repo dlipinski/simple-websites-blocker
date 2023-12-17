@@ -1,6 +1,5 @@
 # Simple Website Blocker
-![ALT TEXT](./images/git_preview.png)
-
+![APP_PREVIEW](./images/app_preview.png)
 ## How does it work?
 
 ### MacOS / Linux
