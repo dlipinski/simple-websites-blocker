@@ -1,81 +1,22 @@
-import 'package:process_run/shell.dart';
-import 'package:path_provider/path_provider.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
-import 'dart:io' as io;
+import 'package:window_manager/window_manager.dart';
+import 'package:websites_blocker/global.dart';
 
-Future<String> _writeToTempFile(content) async {
-  final directory = await getTemporaryDirectory();
-  final path = directory.path;
-  final filePath = '$path/tempContent.txt';
-  final tempFile = io.File(filePath);
-  await tempFile.writeAsString(content);
-  return filePath;
-}
-
-Future<void> _removePageFromBlocked(content, webpage) async {
-  var lines = content.split('\n');
-  var newList = lines.where((x) => !x.contains('127.0.0.1       $webpage'));
-  var newContent = newList.join('\n');
-  var tempFilePath = await _writeToTempFile(newContent);
-  var command = """
-    #!/bin/bash
-    /usr/bin/osascript -e 'do shell script "sudo cat $tempFilePath > /etc/hosts" with administrator privileges'
-    """;
-  var shell = Shell();
-  await shell.run(command);
-}
-
-Future<void> _addPageToBlocked(content, webpage) async {
-  var newLine = '127.0.0.1       $webpage';
-  var newContent = content.replaceFirst(
-      "# DeadSimpleBlockerEnd", "$newLine\n# DeadSimpleBlockerEnd");
-  var tempFilePath = await _writeToTempFile(newContent);
-  var command = """
-    #!/bin/bash
-    /usr/bin/osascript -e 'do shell script "sudo cat $tempFilePath > /etc/hosts" with administrator privileges'
-    """;
-  var shell = Shell();
-  await shell.run(command);
-}
-
-Future<String> _getContent() async {
-  var path = '/etc/hosts';
-  return await io.File(path).readAsString();
-}
-
-Future<void> _initFile(content) async {
-  var newContent =
-      content + '\n\n# DeadSimpleBlockerStart\n# DeadSimpleBlockerEnd';
-  var tempFilePath = await _writeToTempFile(newContent);
-  var command = """
-    #!/bin/bash
-    /usr/bin/osascript -e 'do shell script "sudo cat $tempFilePath > /etc/hosts" with administrator privileges'
-    """;
-  var shell = Shell();
-  await shell.run(command);
-}
-
-List<dynamic> _readLines(content) {
-  const start = '# DeadSimpleBlockerStart';
-  const end = '# DeadSimpleBlockerEnd';
-  final startIndex = content.indexOf(start);
-  if (startIndex != -1) {
-    final endIndex = content.indexOf(end);
-    var appContent =
-        content.substring(startIndex + start.length, endIndex).trim();
-    if (appContent.length == 0) return [];
-    return appContent
-        .split('\n')
-        .map((line) => line.replaceAll('127.0.0.1       ', ''))
-        .toList();
-  } else {
-    _initFile(content);
-    return [];
-  }
-}
-
-void main() async {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(400, 600),
+    maximumSize: Size(400, 2000),
+    minimumSize: Size(400, 400),
+    titleBarStyle: TitleBarStyle.hidden,
+    center: true,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
   runApp(const MyApp());
 }
 
@@ -84,12 +25,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Simple Websites Blocker',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme),
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
-          // ···
+          seedColor: Colors.indigo,
           brightness: Brightness.dark,
         ),
       ),
@@ -108,82 +50,125 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final textFieldController = TextEditingController();
   var lines = [];
+  var errorMessage = '';
+
+  Future<void> _refreshLines() async {
+    var content = await getEtcHosts();
+    lines = readLines(content);
+    setState(() {});
+  }
 
   void _blockPage() async {
     var webpage = textFieldController.text;
-    var content = await _getContent();
-    await _addPageToBlocked(content, webpage);
-    content = await _getContent();
-    lines = _readLines(content);
+    if (!validateIsUrl(webpage)) {
+      errorMessage = 'This is not valud website address';
+      setState(() {});
+      return;
+    }
+    errorMessage = '';
     setState(() {});
+    await addPageToBlocked(webpage);
+    await _refreshLines();
+    textFieldController.clear();
   }
 
   void _unblockPage(webpage) async {
-    var content = await _getContent();
-    await _removePageFromBlocked(content, webpage);
-    content = await _getContent();
-    lines = _readLines(content);
-    setState(() {});
-  }
-
-  void f() async {
-    var content = await _getContent();
-    lines = _readLines(content);
-    setState(() {});
+    await removePageFromBlocked(webpage);
+    await _refreshLines();
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      f();
+      _refreshLines();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
-        ),
-        body: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: TextField(
+        backgroundColor: Colors.black,
+        body: Padding(
+          padding:
+              const EdgeInsets.only(left: 20.0, right: 20, bottom: 20, top: 80),
+          child: Column(children: [
+            Text(
+              widget.title,
+              style: const TextStyle(color: Colors.white, fontSize: 25),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            TextField(
+              style: const TextStyle(color: Colors.white, fontSize: 14),
               controller: textFieldController,
               decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                hintText: 'Enter a webpage',
+                errorText: errorMessage.isEmpty ? null : errorMessage,
+                contentPadding: const EdgeInsets.only(
+                    left: 12, top: 0, bottom: 0, right: 0),
+                border:
+                    const OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                hintText: 'e.g. funwebsite.com',
                 suffixIcon: Padding(
-                  padding: const EdgeInsets.only(right: 20.0),
-                  child: ElevatedButton(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: FilledButton(
                     onPressed: _blockPage,
+                    style: FilledButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(2.0),
+                      ),
+                    ),
                     child: const Text('Block'),
                   ),
                 ),
               ),
             ),
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder: (context, index) {
-              return const Divider();
-            },
-            itemCount: lines.length,
-            itemBuilder: (context, index) {
-              final item = lines[index];
-              return ListTile(
-                title: Text(item),
-                trailing: ElevatedButton(
-                  onPressed: () {
-                    _unblockPage(item);
-                  },
-                  child: const Text('Unblock'),
-                ),
-              );
-            },
-          ),
-        ]));
+            const SizedBox(
+              height: 40,
+            ),
+            Container(
+              width: double.infinity,
+              child: const Text(
+                'Blocked websites',
+                textAlign: TextAlign.left,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+                itemCount: lines.length,
+                itemBuilder: (context, index) {
+                  final item = lines[index];
+                  return ListTile(
+                    contentPadding: const EdgeInsets.all(2.0),
+                    visualDensity:
+                        const VisualDensity(horizontal: 0, vertical: -4),
+                    title: Text(
+                      item,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        _unblockPage(item);
+                      },
+                      child: const Text('Unblock'),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ]),
+        ));
   }
 }
