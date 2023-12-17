@@ -1,5 +1,7 @@
 # websites_blocker
 
+![ALT TEXT](./images/git_preview.png)
+
 A new Flutter project.
 
 ## Getting Started
