@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _blockPage() async {
     var webpage = textFieldController.text;
     if (!validateIsUrl(webpage)) {
-      errorMessage = 'This is not valud website address';
+      errorMessage = 'Invalid website address';
       setState(() {});
       return;
     }
