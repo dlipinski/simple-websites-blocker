@@ -1,5 +1,6 @@
 # Simple Website Blocker
-![APP_PREVIEW](./images/app_preview.png)
+<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/app_preview.png" width="512" height="667" alt="APP_PREVIEW">
+
 ## How does it work?
 
 ### MacOS / Linux
@@ -24,6 +25,4 @@
 ## Authorization examples
 
 ### MacOS
-<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/osascript_preview.png" width="256" height="277">
-
-![OSASCRIPT_PREVIEW](./images/osascript_preview.png)
+<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/osascript_preview.png" width="320" height="346" alt="APP_PREVIEW">
