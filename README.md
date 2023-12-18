@@ -53,10 +53,10 @@ Blockades are set up in the `/etc/hosts` file.
 4. All variants are removed from the `/etc/hosts/` file
 
 ### Linux
-Not tested, should work.
+Not yet supported.
 
 ### Windows
-Not tested, shouldn't work.
+Not yet supported.
 
 ## Authorization examples
 
@@ -64,15 +64,33 @@ Not tested, shouldn't work.
 <img src="https://github.com/dlipinski/simple-websites-blocker/blob/main/images/osascript_preview.png" width="320" height="346" alt="APP_PREVIEW">
 
 ### Linux
-Not tested.
+Not yet supported.
 
 ### Windows
-Not tested.
+Not yet supported.
 
 
-## Run local
+## Run in development mode
 ```sh
 $ git clone https://github.com/dlipinski/simple-websites-blocker
 $ cd simple-websites-blocker
 $ flutter run
 ```
+
+## Build and use
+
+### MacOS
+
+1. Clone project, build and open in XCode
+
+    ```sh
+    $ git clone https://github.com/dlipinski/simple-websites-blocker
+    $ cd simple-websites-blocker
+    $ flutter build macos
+    $ open macos/Runner.xcodeproj 
+    ```
+2. In XCode in top menu, select `Product -> Build`
+3. In left menu (Project navigator), find file `Runner -> Products -> Simple Websites Blocker`
+4. Right-click and select `Show in Finder`
+5. Copy `Simple Websites Blocker` to Desktop
+6. Drag `Simple Websites Blocker` from Desktop to Applications
