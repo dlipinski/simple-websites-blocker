@@ -12,7 +12,7 @@ Blockades are set up in the `/etc/hosts` file.
 1. The user enters the site address (in any format, such as `site.com` or `https://www.site.com/subpage`) and clicks the `Block` button
 2. A domain is extracted from the address (e.g. `https://www.site.com/subpage` -> `site.com`)
 3. Address variants are created:  
-    ```
+    ```yaml
     <domain>
     www.<domain>
     http://<domain>
@@ -24,19 +24,23 @@ Blockades are set up in the `/etc/hosts` file.
 5. If it is the first addition, the fragment `# SimpleWebsitesBlockerStart#\nSimpleWebsitesBlockerEnd` is added to the `/etc/hosts` file
 6. All variants are placed in the `/etc/hosts` file between the application tags (`# SimpleWebsitesBlockerStart`, `# SimpleWebsitesBlockerEnd`) in the format
 
-    ```
+    ```yaml
+    # SimpleWebsitesBlockerStart
+    ...
     127.0.0.1     <domain>
     127.0.0.1     www.<domain>
     127.0.0.1     http://<domain>
     127.0.0.1     https://<domain>
     127.0.0.1     http://www.<domain>
     127.0.0.1     https://www.<domain>
+    ...
+    # SimpleWebsitesBlockerEnd
     ```
 
 #### Removal:
 1. The user clicks on the `Unblock` button next to the domain
 2. Address variants are created:  
-    ```
+    ```yaml
     <domain>
     www.<domain>
     http://<domain>
@@ -51,3 +55,11 @@ Blockades are set up in the `/etc/hosts` file.
 
 ### MacOS
 <img src="https://github.com/dlipinski/simple_websites_blocker/blob/main/images/osascript_preview.png" width="320" height="346" alt="APP_PREVIEW">
+
+
+## Run local
+```sh
+$ git clone https://github.com/dlipinski/simple-websites-blocker
+$ cd simple-websites-blocker
+$ flutter run
+```
