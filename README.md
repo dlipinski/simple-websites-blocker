@@ -56,7 +56,7 @@ Blockades are set up in the `/etc/hosts` file.
 Not tested, should work.
 
 ### Windows
-Not tested.
+Not tested, shouldn't work.
 
 ## Authorization examples
 
