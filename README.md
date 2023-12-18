@@ -63,6 +63,12 @@ Not tested.
 ### MacOS
 <img src="https://github.com/dlipinski/simple-websites-blocker/blob/main/images/osascript_preview.png" width="320" height="346" alt="APP_PREVIEW">
 
+### Linux
+Not tested.
+
+### Windows
+Not tested.
+
 
 ## Run local
 ```sh
