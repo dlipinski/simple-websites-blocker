@@ -5,7 +5,7 @@ Clean application to block websites on all browsers at once. Inspired by the inn
 
 ## How does it work?
 
-### MacOS / Linux
+### MacOS
 
 Blockades are set up in the `/etc/hosts` file.
 
@@ -51,6 +51,12 @@ Blockades are set up in the `/etc/hosts` file.
     ```
 3. The user must authorize the operation so that the application can edit the `/etc/hosts` file
 4. All variants are removed from the `/etc/hosts/` file
+
+### Linux
+Not tested, should work.
+
+### Windows
+Not tested.
 
 ## Authorization examples
 
