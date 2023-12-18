@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "websites_blocker" "\0"
+            VALUE "FileDescription", "simple_websites_blocker" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "websites_blocker" "\0"
+            VALUE "InternalName", "simple_websites_blocker" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "websites_blocker.exe" "\0"
-            VALUE "ProductName", "websites_blocker" "\0"
+            VALUE "OriginalFilename", "simple_websites_blocker.exe" "\0"
+            VALUE "ProductName", "simple_websites_blocker" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

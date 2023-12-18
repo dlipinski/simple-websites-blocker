@@ -1,8 +1,7 @@
 # Simple Website Blocker
-An application to block websites on all browsers at once. Inspired by the inner need for digital detox.
+Clean application to block websites on all browsers at once. Inspired by the inner need for digital detox.
 
-<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/app_preview.png" width="426" height="533" alt="APP_PREVIEW">
-
+<img src="https://github.com/dlipinski/simple_websites_blocker/blob/main/images/app_preview.png" width="426" height="533" alt="APP_PREVIEW">
 ## How does it work?
 
 ### MacOS / Linux
@@ -51,4 +50,4 @@ Blockades are set up in the `/etc/hosts` file.
 ## Authorization examples
 
 ### MacOS
-<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/osascript_preview.png" width="320" height="346" alt="APP_PREVIEW">
+<img src="https://github.com/dlipinski/simple_websites_blocker/blob/main/images/osascript_preview.png" width="320" height="346" alt="APP_PREVIEW">

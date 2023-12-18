@@ -1,7 +1,7 @@
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:websites_blocker/global.dart';
+import 'package:simple_websites_blocker/global.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
