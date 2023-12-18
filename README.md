@@ -1,7 +1,7 @@
 # Simple Website Blocker
 An application to block websites on all browsers at once. Inspired by the inner need for digital detox.
 
-<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/app_preview.png" width="512" height="667" alt="APP_PREVIEW">
+<img src="https://github.com/dlipinski/websites_blocker/blob/main/images/app_preview.png" width="533" height="667" alt="APP_PREVIEW">
 
 ## How does it work?
 
