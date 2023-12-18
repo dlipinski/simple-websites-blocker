@@ -2,6 +2,7 @@
 Clean application to block websites on all browsers at once. Inspired by the inner need for digital detox.
 
 <img src="https://github.com/dlipinski/simple-websites-blocker/blob/main/images/app_preview.png" width="426" height="533" alt="APP_PREVIEW">
+
 ## How does it work?
 
 ### MacOS / Linux
