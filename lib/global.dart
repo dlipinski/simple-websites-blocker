@@ -11,7 +11,7 @@ Future<String> writeToTempFile(content) async {
   return filePath;
 }
 
-bool validateIsUrl(text) {
+bool validateUrl(text) {
   final urlRegex =
       RegExp(r'(https|http)?:?(\/\/)?(www\.)?[a-zA-Z0-1]+\.[a-z]+.*');
   return urlRegex.hasMatch(text);
